@@ -1,18 +1,16 @@
 package mtl.wabi.db.proxy.pojo;
 
-import com.zaxxer.hikari.HikariConfig;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-
-import java.lang.reflect.Field;
-import java.util.Properties;
-
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.util.Properties;
+
+import com.zaxxer.hikari.HikariConfig;
+
+import lombok.Data;
+
 
 @Data
-@Slf4j
 public class HikariCpConfig {
 
     private static final long CONNECTION_TIMEOUT = SECONDS.toMillis(30);
@@ -53,20 +51,6 @@ public class HikariCpConfig {
 
     public HikariConfig toHikariConfig(HikariCpConfig globalConfig) {
         HikariConfig config = new com.zaxxer.hikari.HikariConfig();
-
-        String tempSchema = schema == null ? globalConfig.getSchema() : schema;
-        if (tempSchema != null) {
-            try {
-                Field schemaField = com.zaxxer.hikari.HikariConfig.class.getDeclaredField("schema");
-                schemaField.setAccessible(true);
-                schemaField.set(config, tempSchema);
-            } catch (NoSuchFieldException e) {
-                log.warn("动态数据源-设置了Hikari的schema属性，但当前Hikari版本不支持");
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
         String tempCatalog = catalog == null ? globalConfig.getCatalog() : catalog;
         if (tempCatalog != null) {
             config.setCatalog(tempCatalog);

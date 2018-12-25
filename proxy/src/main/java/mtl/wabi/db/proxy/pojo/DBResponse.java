@@ -1,18 +1,19 @@
 package mtl.wabi.db.proxy.pojo;
 
 import lombok.Data;
+import mtl.wabi.db.proxy.common.DBConstants;
 
 @Data
 public class DBResponse {
 	/**
 	 * the request id
 	 */
-	private String id;
+	private Long id;
 	/**
 	 * the status of the execute.
 	 * 
 	 */
-	private String status;
+	private String status=DBConstants.PROC;
 	/**
 	 * the csv path which can be download by wget.
 	 */
@@ -20,6 +21,6 @@ public class DBResponse {
 	/**
 	 * time in mills second to tell how long the sql executed.
 	 */
-	private String execTime;
+	private long execTime;
 
 }

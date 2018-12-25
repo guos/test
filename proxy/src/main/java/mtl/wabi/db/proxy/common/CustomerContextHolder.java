@@ -1,5 +1,5 @@
-package mtl.wabi.db.proxy.service;
-
+package mtl.wabi.db.proxy.common;
+@Deprecated
 public class CustomerContextHolder {
 	private static final ThreadLocal<String> contextHolder =  new ThreadLocal<String>();
 	
@@ -9,7 +9,7 @@ public class CustomerContextHolder {
    }
 
    public static String getDataSource() {
-      return (String) contextHolder.get();
+      return  contextHolder.get();
    }
 
    public static void clearDataSource() {

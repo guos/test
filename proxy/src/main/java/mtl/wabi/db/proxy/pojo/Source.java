@@ -1,27 +1,51 @@
 package mtl.wabi.db.proxy.pojo;
 
+import org.springframework.util.DigestUtils;
+
+import mtl.wabi.db.proxy.common.DBUtils;
+
 public class Source {
+
 	/**
-	 * the name of the dataSource
+	 * tell which type of DB, DB2,MySQL
 	 */
-	private String name;
+	private String type;
 
 	private String username;
 	/**
 	 * password is encrypted
 	 */
 	private String password;
+
 	/**
-	 * tell which type of DB
+	 * the ip of the db
 	 */
-	private String type;
-	private String jdbcUrl;
 	private String ip;
+	/**
+	 * the port of the db
+	 */
 	private int port;
+
+	/**
+	 * which database,
+	 */
 	private String db;
+
+	// --------------------------follow are not must input,app will auto get it
+
+	/**
+	 * the name of the dataSource
+	 */
+	private String name;
+	private String jdbcUrl;
 	private String driverClass;
 
+	// ---------------------------------------------------------------------------
 	public String getName() {
+		if (name == null) {
+			String key=username + db + port + ip + type.toUpperCase();
+			name =DigestUtils.md5DigestAsHex(key.getBytes());
+		}
 		return name;
 	}
 
@@ -38,8 +62,8 @@ public class Source {
 	}
 
 	public String getPassword() {
-		
-		//need decrypte 
+
+		// need decrypte
 		return password;
 	}
 
@@ -56,6 +80,18 @@ public class Source {
 	}
 
 	public String getJdbcUrl() {
+		
+		if(jdbcUrl==null) {
+			//use the type to judge the url
+			//eg, oracal, db2 use which type of url, use String.format 
+			
+			
+			
+		}
+		
+		
+		
+		
 		return jdbcUrl;
 	}
 
@@ -95,25 +131,17 @@ public class Source {
 	 * @return
 	 */
 	public String getDriverClass() {
-       
-		if(driverClass==null) {
-			//if user not input the driverClass, try to get it from type.
-			
-			
-			
+
+		if (driverClass == null) {
+			// if user not input the driverClass, try to get it from type.
+			driverClass = DBUtils.getDriverFromType(type);
 		}
-		
-		
+
 		return driverClass;
 	}
 
 	public void setDriverClass(String driverClass) {
 		this.driverClass = driverClass;
 	}
-	
-
-	
-	
-	
 
 }

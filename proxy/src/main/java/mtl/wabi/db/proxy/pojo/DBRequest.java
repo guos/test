@@ -4,10 +4,8 @@ import lombok.Data;
 
 @Data
 public class DBRequest {
-	String id;
+	Long id;
 	int timeout;
 	Source source;
 	String sql;
-	
-
 }
